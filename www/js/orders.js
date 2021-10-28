@@ -213,10 +213,10 @@ const Orders = (function () {
       const nombre_recicla_tendero = data.nombre_recicla_tendero == null 
         ? 'No asignado' : data.nombre_recicla_tendero + ' ' + data.apellido_recicla_tendero;
       const html = '<div class="col-6">' +
-          '<p><b>Fecha para recoger</b><br>' + data.fecha + '</p>' +
+          '<p><b>Fecha de Asistencia</b><br>' + data.fecha + '</p>' +
         '</div>' +
         '<div class="col-6">' +
-          '<p><b>Fecha recogida</b><br>' + (data.fecha_recogida ? data.fecha_recogida : 'No recogido') + '</p>' +
+          '<p><b>Fecha de Asistido</b><br>' + (data.fecha_recogida ? data.fecha_recogida : 'No recogido') + '</p>' +
         '</div>' +
         '<div class="col-12">' +
           '<p><b>Nombre cliente</b>: ' + (data.nombre_cliente + ' ' + data.apellido_cliente) + '</p>' +
@@ -228,12 +228,12 @@ const Orders = (function () {
           '<p><b>Comentario</b>: ' + data.comentario + '</p>' +
         '</div>' +
         '<div class="col-6">' +
-          '<p><b>Reciclatendero</b>:</p>' +
+          '<p><b>Mecanico</b>:</p>' +
           '<img src="' + (data.nombre_recicla_tendero == null ? 'images/avatar.jpg' : data.foto) + '">' +
           '<p><b>' + nombre_recicla_tendero + '</b></p>' +
         '</div>' +
         '<div class="col-12">' +
-          '<p><b>Objetos de la solicitud:</b></p><ul class="js-order-items"></ul>' +
+          '<p><b>Asistencia de la solicitud:</b></p><ul class="js-order-items"></ul>' +
           '<p><b>Total:</b> $<span class="js-total-price"></span></p>' +
         '</div>';
       let detailsAjax = $.ajax({
