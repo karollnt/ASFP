@@ -216,7 +216,7 @@ const Orders = (function () {
           '<p><b>Fecha de Asistencia</b><br>' + data.fecha + '</p>' +
         '</div>' +
         '<div class="col-6">' +
-          '<p><b>Fecha de Asistido</b><br>' + (data.fecha_recogida ? data.fecha_recogida : 'No recogido') + '</p>' +
+          '<p><b>Fecha de Asistido</b><br>' + (data.fecha_recogida ? data.fecha_recogida : 'No Asistido') + '</p>' +
         '</div>' +
         '<div class="col-12">' +
           '<p><b>Nombre cliente</b>: ' + (data.nombre_cliente + ' ' + data.apellido_cliente) + '</p>' +
