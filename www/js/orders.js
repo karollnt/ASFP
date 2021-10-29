@@ -47,7 +47,7 @@ const Orders = (function () {
           '$ ' + (current.precio * 1) + ' (' + current.medida +')' +
         '</div>' +
         '<div class="col-4">' +
-          '<input type="number" name="cantidad_' + current.id + '" class="form_input js-item-quantity-' + current.id + '" value="0">' +
+          '<input type="number" name="cantidad_' + current.id + '" class="form_input js-item-quantity-' + current.id + '" value="1">' +
         '</div>' +
       '</li>';
       return carry + currentHtml;
