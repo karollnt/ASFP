@@ -92,108 +92,20 @@
                 <div class="navbar__col navbar__col--title">
                   <a href="index.html"><p style="color:#FFFF" ;>ASFPerformance</p></a>
                 </div>
-              </div>
-
-              <div id="pages_maincontent">
-                <h2 class="page_title">Mi perfil</h2>
-                <div class="layout_fullwidth_padding">
-                  <div class="js-user-data">
-                    <div class="row">
-                      <div class="col-4">
-                        <img src="images/avatar3.jpg" class="js-user-image" alt="" title="" />
-                        <div class="update-buttons">
-                          <button class="btn btn--short js-show-edit-form" data-target=".js-edit-user-photo-form">Cambiar foto</button>
-                        </div>
-                      </div>
-                      <div class="col-8">
-                        <dl>
-                          <dt>Nombre:</dt>
-                          <dd class="js-user-data-name">-</dd>
-                          <dt>Direccion:</dt>
-                          <dd class="js-user-data-address">-</dd>
-                          <dt>Telefono:</dt>
-                          <dd class="js-user-data-phone">-</dd>
-                        </dl>
-                        <div class="update-buttons">
-                          <button class="btn js-show-edit-form" data-target=".js-edit-user-data-form">Modificar datos</button>
-                        </div>
-                        <div class="update-buttons">
-                          <button class="btn js-show-update-pass" data-target=".js-edit-user-pass-form">Cambiar clave</button>
-                        </div>
-                      </div>
+             <div class="swiper-container-pages">
+                    <div class="swiper-wrapper">
+                    
+                      <div class="swiper-slide">
+      <img src="images/slide12.jpg" alt="" title="" />
+                       </div>
+                      <div class="swiper-slide">
+      <img src="images/slide13.jpg" alt="" title="" />
+                       </div>
+                      <div class="swiper-slide">
+      <img src="images/slide14.jpg" alt="" title="" />
+                       </div>       
+             
                     </div>
-                  </div>
-                  <form class="js-edit-user-photo-form contactform editform display-none" method="post" enctype="multipart/form-data">
-                    <input type="hidden" name="user_id" value="0" class="js-edit-photo-user-id">
-                    <div class="form_row">
-                      <label for="update_photo">Adjuntar archivo</label>
-                      <input type="file" name="image" class="form_input required" id="update_photo">
-                    </div>
-                    <div class="form_row form_row--button">
-                      <button class="btn" type="submit">Actualizar foto</button>
-                    </div>
-                    <p class="js-update-photo-message"></p>
-                  </form>
-                  <form class="contactform editform display-none js-edit-user-data-form">
-                    <h3>Editar datos</h3>
-                    <input type="hidden" name="id_perfil" value="1">
-                    <input type="hidden" name="id_tipo_identidad" value="1">
-                    <input type="hidden" name="id" value="0" class="js-edit-data-user-id">
-                    <div class="form_row">
-                      <label for="edit-name">Nombre(s)</label>
-                      <input type="text" id="edit-name" name="nombre" value="" class="form_input required js-edit-user-name">
-                    </div>
-                     <div class="form_row">
-                      <label for="edit-surname">Apellido(s)</label>
-                      <input type="text" id="edit-surname" name="apellido" value="" class="form_input required js-edit-user-surname">
-                    </div> 
-                    <div class="form_row">
-                      <label for="edit-identity">Identificacion</label>
-                      <input type="text" id="edit-identity" name="identificacion" value="" class="form_input required js-edit-user-identity">
-                    </div>
-                    <div class="form_row">
-                      <label for="edit-phone">Telefono</label>
-                      <input type="text" id="edit-phone" name="telefono" value="" class="form_input required js-edit-user-phone">
-                    </div>
-                    <div class="form_row">
-                      <label for="edit-address">Direccion</label>
-                      <input type="text" id="edit-address" name="direccion" value="" class="form_input required js-edit-user-address">
-                    </div>
-                    <div class="form_row">
-                      <label for="edit-department">Departamento</label>
-                      <div class="selector_overlay">
-                        <select id="edit-department" name="departamento" class="form_input required js-edit-user-department" data-target=".js-edit-user-city"></select>
-                      </div>
-                    </div>
-                    <div class="form_row">
-                      <label for="edit-city">Ciudad</label>
-                      <div class="selector_overlay">
-                        <select id="edit-city" name="id_ciudad" class="form_input required js-edit-user-city"></select>
-                      </div>
-                    </div>
-                    <div class="form_row form_row--button">
-                      <button class="btn" type="submit">Actualizar datos</button>
-                    </div>
-                  </form>
-                  <form class="editform js-edit-user-pass-form contactform display-none">
-                    <h3>Editar contrase&ntilde;a</h3>
-                    <input type="hidden" name="user_id" value="" class="js-edit-password-id">
-                    <div class="form_row">
-                      <label for="edit-new-password">Nueva contrase&ntilde;a</label>
-                      <input type="password" id="edit-new-password" name="clave" value="" class="form_input required js-edit-user-pass-1">
-                    </div>
-                    <div class="form_row">
-                      <label for="edit-new-password-2">Repita la nueva contrase&ntilde;a</label>
-                      <input type="password" id="edit-new-password-2" name="clave-1" value="" class="form_input required js-edit-user-pass-2">
-                    </div>
-                    <div class="form_row form_row--button">
-                      <button class="btn" type="submit">Actualizar datos</button>
-                      <p class="js-update-pass-message"></p>
-                    </div>
-                  </form>
-                </div>
-              </div>
-
               <div class="swiper-container-toolbar swiper-toolbar">
                 <div class="swiper-pagination-toolbar"></div>
                 <div class="swiper-wrapper">
