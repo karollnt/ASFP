@@ -102,9 +102,30 @@
                       <input type="hidden" name="latitude" class="js-create-latitude" value="0">
                       <input type="hidden" name="longitude" class="js-create-longitude" value="0">
                     </div>
-                    <div class="form_row">
-                      <label>Escoger Asistencia:</label>
-                      <ul class="form_row_right js-object-list"></ul>
+                    <div>
+                      <div class="toggle">
+                        <div class="toggle__item">
+                          <input class="toggle__input" id="togg1" type="checkbox" name="toggle" checked>
+                          <label class="toggle__label" for="togg1">Escoger Marca<span></span></label>
+                          <div class="toggle__content">
+                            <ul class="js-brand-list"></ul>
+                          </div>
+                        </div>
+                        <div class="toggle__item">
+                          <input class="toggle__input" id="togg2" type="checkbox" name="toggle">
+                          <label class="toggle__label" for="togg2">Escoger Tipo<span></span></label>
+                          <div class="toggle__content">
+                            <ul class="form_row_right js-measurement-list"></ul>
+                          </div>
+                        </div>
+                        <div class="toggle__item">
+                          <input class="toggle__input" id="togg3" type="checkbox" name="toggle">
+                          <label class="toggle__label" for="togg3">Escoger Tipo 2<span></span></label>
+                          <div class="toggle__content">
+                            <ul class="form_row_right js-object-list"></ul>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                     <div class="form_row">
                       <label for="comments">Detalles adicionales</label>

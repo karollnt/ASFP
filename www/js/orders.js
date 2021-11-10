@@ -1,5 +1,6 @@
 const Orders = (function () {
   let categories = null;
+  let brands = null;
   let coordinates = {
     latitude: 0,
     longitude: 0
@@ -8,7 +9,8 @@ const Orders = (function () {
   const init = function () {
     if (typeof isCreateOrder !== 'undefined' && isCreateOrder) {
       $('.js-user-id').val(app.user.id);
-      getOrderCategories();
+      initAccordion();
+      getBrands();
       setEvents();
     } else if (typeof isListOrders !== 'undefined' && isListOrders) {
       listUserOrders();
@@ -17,7 +19,7 @@ const Orders = (function () {
     }
   };
 
-  const getOrderCategories = function () {
+  const getOrderCategories = function (brandId) {
     let ajax = $.ajax({
       method: 'GET',
       url: Variables.backendURL + 'category/get_categories',
@@ -28,12 +30,16 @@ const Orders = (function () {
         return;
       }
       categories = JSON.parse(JSON.stringify(data));
-      fillFormCategories();
+      fillFormCategories(brandId);
     });
   };
 
-  const fillFormCategories = function () {
+  const fillFormCategories = function (brandId) {
     const html = categories.reduce(function (carry, current) {
+      if (brandId != current.id_marca) {
+        return carry;
+      }
+
       const valueString = current.id + ';' + (current.precio * 1);
       const currentHtml = '<li class="row">' +
         '<div class="col-4">' +
@@ -56,7 +62,11 @@ const Orders = (function () {
   };
 
   const setEvents = function () {
-    $(document).on('submit', '.js-create-request-form', createOrder);
+    $(document)
+      .on('submit', '.js-create-request-form', createOrder)
+      .on('change', '.js-brand-item', function (ev) {
+        getBrandItems(ev.target.value);
+      });
     if (!navigator.geolocation) {
       geolocateAddress();
       return;
@@ -256,6 +266,90 @@ const Orders = (function () {
         $('.js-total-price').html(total);
       });
     });
+  };
+
+  const getBrands = function () {
+    let ajax = $.ajax({
+      method: 'GET',
+      url: Variables.backendURL + 'category/get_brands'
+    });
+    ajax.done(function (data) {
+      if (!data || data.length < 1) {
+        return;
+      }
+      brands = JSON.parse(JSON.stringify(data));
+      fillBrands();
+    });
+  };
+
+  const initAccordion = function () {
+    let acc = document.getElementsByClassName("accordion");
+
+    for (let i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function() {
+        this.classList.toggle("active");
+        let panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+        } else {
+          panel.style.display = "block";
+        }
+      });
+    }
+  };
+
+  const fillBrands = function () {
+    const html = brands.reduce(function (carry, current) {
+      const currentHtml = '<li class="row">' +
+        '<div class="col-12">' +
+          '<label class="label-radio item-content" for="brand_' + current.id + '">' +
+            '<input type="radio" id="brand_' + current.id + '" name="brand" class="js-brand-item" value="' + current.id + '" data-index="' + current.id + '"> ' +
+            '<span class="item-title">' + current.nombre + '</span>' +
+          '</label>' +
+        '</div>' +
+      '</li>';
+      return carry + currentHtml;
+    }, '');
+    $('.js-brand-list').html(html);
+  };
+
+  const showStep = function (step) {
+    $('#togg' + step).prop("checked", true);
+  };
+
+  const getBrandItems = function (brandId) {
+    getMeasurements(brandId);
+    // getOrderCategories(brandId);
+  };
+
+  const getMeasurements = function (brandId) {
+    let ajax = $.ajax({
+      method: 'GET',
+      url: Variables.backendURL + 'category/get_measurements'
+    });
+    ajax.done(function (data) {
+      if (!data || data.length < 1) {
+        return;
+      }
+      measurements = JSON.parse(JSON.stringify(data));
+      fillMeasurements(brandId);
+      showStep(2);
+    });
+  };
+
+  const fillMeasurements = function (brandId) {
+    const html = measurements.reduce(function (carry, current) {
+      const currentHtml = '<li class="row">' +
+        '<div class="col-12">' +
+          '<label class="label-radio item-content" for="mesurement_' + current.id + '">' +
+            '<input type="radio" id="mesurement_' + current.id + '" name="mesurement" class="js-mesurement-item" value="' + current.id + '" data-index="' + current.id + '"> ' +
+            '<span class="item-title">' + current.nombre + '</span>' +
+          '</label>' +
+        '</div>' +
+      '</li>';
+      return carry + currentHtml;
+    }, '');
+    $('.js-measurement-list').html(html);
   };
 
   return {

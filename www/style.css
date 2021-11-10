@@ -3211,3 +3211,11 @@ max-width:50%;
 padding:15px 0 0 0;
 }
 }
+
+.contactform .toggle__label {
+  padding: 6px 10px;
+}
+
+.toggle__input:checked ~ .toggle__content {
+  max-height: none;
+}
