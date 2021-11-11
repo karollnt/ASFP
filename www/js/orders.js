@@ -19,7 +19,7 @@ const Orders = (function () {
     }
   };
 
-  const getOrderCategories = function (brandId) {
+  const getOrderCategories = function () {
     let ajax = $.ajax({
       method: 'GET',
       url: Variables.backendURL + 'category/get_categories',
@@ -30,29 +30,34 @@ const Orders = (function () {
         return;
       }
       categories = JSON.parse(JSON.stringify(data));
-      fillFormCategories(brandId);
+      fillFormCategories();
+      showStep(3);
     });
   };
 
-  const fillFormCategories = function (brandId) {
+  const fillFormCategories = function () {
+    const brandId = $('.js-brand-item:checked').val();
+    const measurementId = $('.js-measurement-item:checked').val();
     const html = categories.reduce(function (carry, current) {
-      if (brandId != current.id_marca) {
+      if (brandId != current.id_marca || current.id_medida != measurementId) {
         return carry;
       }
 
       const valueString = current.id + ';' + (current.precio * 1);
       const currentHtml = '<li class="row">' +
-        '<div class="col-4">' +
-        (current.foto ? '<img src = "' + current.foto + '">' : '') +
+        '<div class="col-1">' +
+          '<input type="checkbox" id="category_' + current.id + '" name="category" class="js-category-item" value="' + valueString + '" data-id="' + current.id + '"> ' +
+        '</div>' +
+        '<div class="col-5">' +
+          (current.foto ? '<img src="' + current.foto + '">' : '') +
           '<label class="label-checkbox item-content" for="category_' + current.id + '">' +
-            '<input type="checkbox" id="category_' + current.id + '" name="category" class="js-category-item" value="' + valueString + '" data-id="' + current.id + '"> ' +
-            '<span class="item-title">' + current.nombre + '</span>' +
+            current.nombre +
           '</label>' +
         '</div>' +
-        '<div class="col-4">' +
-          '$ ' + (current.precio * 1) + ' (' + current.medida +')' +
+        '<div class="col-3">' +
+          '$ ' + (current.precio * 1) +
         '</div>' +
-        '<div class="col-4">' +
+        '<div class="col-3">' +
           '<input type="number" name="cantidad_' + current.id + '" class="form_input js-item-quantity-' + current.id + '" value="1">' +
         '</div>' +
       '</li>';
@@ -64,9 +69,8 @@ const Orders = (function () {
   const setEvents = function () {
     $(document)
       .on('submit', '.js-create-request-form', createOrder)
-      .on('change', '.js-brand-item', function (ev) {
-        getBrandItems(ev.target.value);
-      });
+      .on('change', '.js-brand-item', getBrandItems)
+      .on('change', '.js-measurement-item', getOrderCategories);
     if (!navigator.geolocation) {
       geolocateAddress();
       return;
@@ -244,8 +248,18 @@ const Orders = (function () {
           '<p>Tel&eacute;fono: ' + data.telefono_empleado + '</p>' +
         '</div>' +
         '<div class="col-12">' +
-          '<p><b>Asistencia de la solicitud:</b></p><ul class="js-order-items"></ul>' +
-          '<p><b>Total:</b> $<span class="js-total-price"></span></p>' +
+          '<p><b>Asistencia de la solicitud:</b></p>' +
+          '<table class="order-detail-items">' +
+            '<thead>' +
+              '<tr>' +
+                '<th>Producto/servicio</th>' +
+                '<th>Cantidad</th>' +
+                '<th>Total</th>' +
+              '</tr>' +
+            '</thead>' +
+            '<tbody class="js-order-items"></tbody>' +
+          '</table>' +
+          '<p class="order-total"><b>Total:</b> $<span class="js-total-price"></span></p>' +
         '</div>';
       let detailsAjax = $.ajax({
         data: { order_id: params.id },
@@ -258,8 +272,12 @@ const Orders = (function () {
         const detailsHtml = detailsData.reduce(function (carry, item) {
           const lineItemPrice = item.precio * item.cantidad;
           total += lineItemPrice;
-          const detailHtml = '<li><p>- <b>' + item.nombre_categoria + '</b>: $ ' + lineItemPrice + ' - ' +
-            item.cantidad + ' ' + item.medida + '(s) -> $' + (item.precio * 1) + ' / ' + item.medida + '</p></li>';
+          const detailHtml = '<tr>' +
+            '<td>' + item.nombre_categoria + ' (' + item.nombre_marca + ')<br>' + item.medida + '</td>' +
+            '<td>' + item.cantidad + '</td>' +
+            '<td>$ ' + lineItemPrice + '</td>' +
+          '</tr>';
+
           return carry + detailHtml;
         }, '');
         $('.js-order-items').html(detailsHtml);
@@ -300,13 +318,11 @@ const Orders = (function () {
 
   const fillBrands = function () {
     const html = brands.reduce(function (carry, current) {
-      const currentHtml = '<li class="row">' +
-        '<div class="col-12">' +
-          '<label class="label-radio item-content" for="brand_' + current.id + '">' +
-            '<input type="radio" id="brand_' + current.id + '" name="brand" class="js-brand-item" value="' + current.id + '" data-index="' + current.id + '"> ' +
-            '<span class="item-title">' + current.nombre + '</span>' +
-          '</label>' +
-        '</div>' +
+      const currentHtml = '<li class="col-6">' +
+        '<label class="label-radio item-content" for="brand_' + current.id + '">' +
+          '<input type="radio" id="brand_' + current.id + '" name="brand" class="js-brand-item" value="' + current.id + '" data-index="' + current.id + '"> ' +
+          '<span class="item-title">' + current.nombre + '</span>' +
+        '</label>' +
       '</li>';
       return carry + currentHtml;
     }, '');
@@ -314,15 +330,15 @@ const Orders = (function () {
   };
 
   const showStep = function (step) {
-    $('#togg' + step).prop("checked", true);
+    $('#togg' + step).prop('checked', true);
+    $('#togg' + step)[0].scrollIntoView({block: 'start', behavior: 'smooth'});
   };
 
-  const getBrandItems = function (brandId) {
-    getMeasurements(brandId);
-    // getOrderCategories(brandId);
+  const getBrandItems = function () {
+    getMeasurements();
   };
 
-  const getMeasurements = function (brandId) {
+  const getMeasurements = function () {
     let ajax = $.ajax({
       method: 'GET',
       url: Variables.backendURL + 'category/get_measurements'
@@ -332,17 +348,17 @@ const Orders = (function () {
         return;
       }
       measurements = JSON.parse(JSON.stringify(data));
-      fillMeasurements(brandId);
+      fillMeasurements();
       showStep(2);
     });
   };
 
-  const fillMeasurements = function (brandId) {
+  const fillMeasurements = function () {
     const html = measurements.reduce(function (carry, current) {
       const currentHtml = '<li class="row">' +
         '<div class="col-12">' +
-          '<label class="label-radio item-content" for="mesurement_' + current.id + '">' +
-            '<input type="radio" id="mesurement_' + current.id + '" name="mesurement" class="js-mesurement-item" value="' + current.id + '" data-index="' + current.id + '"> ' +
+          '<label class="label-radio item-content" for="measurement_' + current.id + '">' +
+            '<input type="radio" id="measurement_' + current.id + '" name="measurement" class="js-measurement-item" value="' + current.id + '" data-id="' + current.id + '"> ' +
             '<span class="item-title">' + current.nombre + '</span>' +
           '</label>' +
         '</div>' +
